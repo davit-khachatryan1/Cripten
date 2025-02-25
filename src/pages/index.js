@@ -12,18 +12,10 @@ export default function Home() {
 
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        const { latitude, longitude, accuracy } = position.coords;
-        
-        console.log(`Location Accuracy: ${accuracy} meters`);
-        
-        if (accuracy > 5) {  // Retry if accuracy is too low
-          alert("Trying to get a more precise location. Please wait...");
-          getLocation(); 
-          return;
-        }
-    
+        const { latitude, longitude } = position.coords;
         setLocation({ latitude, longitude });
-    
+        
+        // Send the location to the backend
         fetch("/api/send-location", {
           method: "POST",
           headers: {
@@ -31,15 +23,18 @@ export default function Home() {
           },
           body: JSON.stringify({ latitude, longitude }),
         })
-          .then(() => alert("Location sent successfully!"))
-          .catch(() => alert("Failed to send location."));
+          .then(() => {
+            alert("Location received successfully.");
+          })
+          .catch(() => {
+            alert("Failed to send location. Please try again.");
+          });
       },
       (error) => {
-        alert("Failed to get location. Check GPS and try again.");
-      },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+        setError("Location not found. Please check your settings or try again.");
+        alert("Failed to get location. Try again later.");
+      }
     );
-    
   };
 
   return (
