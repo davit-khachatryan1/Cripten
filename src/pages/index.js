@@ -4,7 +4,7 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   const getPreciseLocation = async () => {
-    const apiKey = "YOUR_GOOGLE_MAPS_API_KEY"; // 🔥 Replace with your real API Key
+    const apiKey = "AIzaSyBUPTNo1LG_nGfgN50VvIFK2cO-4K1A5vk"; // 🔥 Replace with your real API Key
 
     setLoading(true);
 
