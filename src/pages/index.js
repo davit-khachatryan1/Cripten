@@ -5,7 +5,7 @@ export default function Home() {
   const [error, setError] = useState(null);
 
   const getLocation = async () => {
-    const GOOGLE_API_KEY = "AIzaSyBUPTNo1LG_nGfgN50VvIFK2cO-4K1A5vk"; // Replace with your actual API key
+    const GOOGLE_API_KEY = "AIzaSyB0J3TXzp8mwaouy51_6NbglP3lyoHn2j8"; // Replace with your actual API key
 
     try {
       const response = await fetch(
