@@ -19,7 +19,7 @@ export default function Home() {
         console.log(`📍 GPS Accuracy: ${accuracy} meters`);
 
         if (accuracy > 5) {
-          getGoogleLocation(apiKey); // If GPS is inaccurate, use Google API
+          getGoogleLocation(apiKey);
           return;
         }
 
@@ -62,8 +62,6 @@ export default function Home() {
       const data = await response.json();
       if (data.results.length > 0) {
         const address = data.results[0].formatted_address;
-        console.log("📍 Exact Address:", address);
-
         await sendLocation(latitude, longitude, address);
       }
     } catch (error) {
