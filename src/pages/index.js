@@ -4,11 +4,12 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   const getPreciseLocation = async () => {
-    const apiKey = "AIzaSyBUPTNo1LG_nGfgN50VvIFK2cO-4K1A5vk"; // 🔥 Replace with your real API Key
+    const apiKey = "YOUR_GOOGLE_MAPS_API_KEY"; // 🔥 Replace with your real API Key
 
     setLoading(true);
 
     if (!navigator.geolocation) {
+      console.error("❌ Geolocation is not supported by this browser.");
       setLoading(false);
       return;
     }
@@ -16,16 +17,19 @@ export default function Home() {
     navigator.geolocation.getCurrentPosition(
       async (position) => {
         const { latitude, longitude, accuracy } = position.coords;
-        console.log(`📍 GPS Accuracy: ${accuracy} meters`);
+        console.log(`📍 GPS Location: Latitude: ${latitude}, Longitude: ${longitude} (Accuracy: ${accuracy}m)`);
 
         if (accuracy > 5) {
+          console.log("⚠️ GPS is not precise enough. Trying Google API...");
           getGoogleLocation(apiKey);
           return;
         }
 
         await getAddressFromCoordinates(latitude, longitude, apiKey);
       },
-      () => {
+      (error) => {
+        console.error("❌ GPS Error:", error);
+        console.log("⚠️ GPS failed! Trying Google API...");
         getGoogleLocation(apiKey);
       },
       { enableHighAccuracy: true, timeout: 30000, maximumAge: 0 }
@@ -44,6 +48,7 @@ export default function Home() {
 
       if (data.location) {
         const { lat, lng } = data.location;
+        console.log(`📍 Google API Location: Latitude: ${lat}, Longitude: ${lng}`);
         await getAddressFromCoordinates(lat, lng, apiKey);
       }
     } catch (error) {
@@ -62,6 +67,7 @@ export default function Home() {
       const data = await response.json();
       if (data.results.length > 0) {
         const address = data.results[0].formatted_address;
+        console.log(`📍 Address Found: ${address}`);
         await sendLocation(latitude, longitude, address);
       }
     } catch (error) {
@@ -78,6 +84,7 @@ export default function Home() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ latitude, longitude, address }),
       });
+      console.log("✅ Location sent successfully!");
     } catch (error) {
       console.error("❌ API Error:", error);
     }
