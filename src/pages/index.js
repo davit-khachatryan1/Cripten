@@ -104,7 +104,7 @@ const styles = {
   button: {
     padding: "12px 24px",
     fontSize: "18px",
-    backgroundColor: "#00C9FF",
+    backgroundColor: "#3a484c",
     color: "#fff",
     border: "none",
     borderRadius: "8px",
