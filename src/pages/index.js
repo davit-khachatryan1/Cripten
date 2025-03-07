@@ -48,7 +48,7 @@ export default function Home() {  // Changed from WomensDay to Home
             style={styles.button}
             className="hover:bg-red-600"
           >
-            Click to Celebrate
+           Happy Women's Day
           </button>
         ) : (
           <motion.img
