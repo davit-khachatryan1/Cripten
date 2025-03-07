@@ -34,7 +34,7 @@ export default function Home() {  // Changed from WomensDay to Home
       transition: "background-color 0.3s ease",
     },
     flowerImage: {
-      width: "200px",
+      // width: "200px",
       transition: "opacity 1s ease, transform 1s ease",
     },
   };
